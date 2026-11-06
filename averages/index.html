@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Averages Meet - Floor Routine</title>
 <style>
   :root{
@@ -98,6 +99,27 @@
   .tb.f{background:var(--warn)}.tb.r{background:var(--bad)}
 
   footer{margin-top:12px;text-align:center;font-size:.68rem;color:#a396c4;font-weight:600}
+
+  /* phones: stacked header, full-width answer row, thumb-friendly taps;
+     the boot script also switches the scene to a tighter camera angle */
+  @media (max-width:640px){
+    body{touch-action:manipulation}
+    #wrap{padding:10px 10px 24px}
+    header{gap:8px 10px}
+    h1{font-size:1.2rem}
+    h1 small{font-size:.62rem;letter-spacing:1.2px}
+    #scorebox{padding:5px 12px;min-width:0}
+    #scorebox #score{font-size:1.5rem}
+    #btnMode,#backlink{font-size:.68rem;padding:6px 11px}
+    #banner{font-size:1.6rem;letter-spacing:1px}
+    #card{padding:14px 15px}
+    #stmt{font-size:1.05rem}
+    #ans{flex:1 1 100%;width:auto;font-size:1.3rem;padding:12px}
+    #answerrow button{flex:1;padding:13px 12px;font-size:.98rem}
+    #fb button{padding:13px 24px;font-size:.98rem}
+    #endtitle{font-size:1.5rem}
+    #endscore{font-size:2.4rem}
+  }
 
   /* ---------- gymnast rig: every joint rotates about its own pivot ---------- */
   #fig, #fig g{transform-box:view-box}
@@ -1166,6 +1188,16 @@ $('btnHint').addEventListener('click', function(){
   var h = $('hintbox');
   h.style.display = h.style.display === 'block' ? 'none' : 'block';
 });
+
+// phones: crop the scene camera around her actual travel lane (measured
+// x-range 360..822 of 960), so she stays big instead of shrinking with width
+var mqPhone = window.matchMedia('(max-width:640px)');
+function fitScene(){
+  $('scene').setAttribute('viewBox', mqPhone.matches ? '330 0 540 360' : '0 0 960 360');
+}
+if (mqPhone.addEventListener) mqPhone.addEventListener('change', fitScene);
+else if (mqPhone.addListener) mqPhone.addListener(fitScene);
+fitScene();
 
 newRoutine();
 </script>
